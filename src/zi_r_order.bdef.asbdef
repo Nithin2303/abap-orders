@@ -1,0 +1,68 @@
+ managed implementation in class zbp_i_r_order unique;
+ strict ( 2 );
+ with draft;
+
+ define behavior for ZI_R_ORDER alias Orders
+ persistent table zdemo_order
+ draft table zdemo_order_d
+ lock master total etag Changedat
+ authorization master ( instance )
+ etag master Changedat
+ {
+   create ( authorization : global );
+   update ( features : instance );
+   delete;
+   field ( numbering : managed, readonly ) Orderid;
+   association _items { create ( features : instance ); with draft; }
+   determination detuppercse on save { create; update; }
+   determination fillcomments on save { create; update; field Status; field Comments; }
+
+   action ( features : instance ) complete result [1] $self;
+   action ( features : instance ) cancel result [1] $self;
+   action ( features : instance ) reasoncancel parameter zdemo_order_comments result [1] $self;
+
+
+   draft action Activate;
+   draft action Discard;
+   draft action Edit;
+   draft action Resume;
+   draft determine action Prepare;
+
+   mapping for zdemo_order
+     {
+       Orderid       = orderid;
+       Customerid    = customerid;
+       Orderdate     = orderdate;
+       Currency      = curr;
+       Amount        = amount;
+       Status        = status;
+       Comments      = comments;
+       Createdby     = createdby;
+       Createdat     = createdat;
+       Lastchangedby = lastchangedby;
+       Changedat     = changedat;
+     }
+ }
+
+
+
+ define behavior for ZI_R_ORDERITEMS alias OrderItems
+ persistent table zdemo_orderitems
+ draft table zdemo_order_i_d
+ lock dependent by _header
+ authorization dependent by _header
+ etag master Changedat
+ {
+   update ( features : instance );
+   delete ( features : instance );
+   field ( numbering : managed, readonly ) Orderitemid;
+   field ( readonly ) Orderid;
+   validation valitemslimit on save { create; }
+   determination detOrderAmount on modify { create; update; field Quantity, Unitprice; }
+   side effects
+   { field Quantity affects field _header.Amount;
+     field Unitprice affects field _header.Amount; }
+   determination detuppercase on save { create; update; }
+
+   association _header { with draft; }
+ }

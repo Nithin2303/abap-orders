@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service definition for orders DB'
+define service ZEXPOSE_ORDER {
+  expose ZC_ORDER;
+  expose ZC_ORDERITEMS;
+}

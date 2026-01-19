@@ -1,0 +1,43 @@
+@Metadata.layer: #CORE
+@UI.headerInfo : { 
+    typeName: 'Order Item',
+    typeNamePlural: 'Order Items',
+    title.value: 'Productname'
+}
+annotate entity ZC_ORDERITEMS with
+{
+
+  @UI.facet: [{ id:'orderitemid',label: 'Order Items',type: #IDENTIFICATION_REFERENCE,position: 10 }]
+  @EndUserText.label: 'Order Item Id'
+  @UI.identification: [{ position: 10 }]
+  Orderitemid;
+  @EndUserText.label: 'Order Id'
+  @UI.identification: [{ position: 20 }]
+  Orderid;
+  @EndUserText.label: 'Product Name'
+  @UI.lineItem: [{ position:10 }]
+  @UI.identification: [{ position: 30 }]
+  Productname;
+  @EndUserText.label: 'Quantity'
+  @UI.lineItem: [{ position:20 }]
+  @UI.identification: [{ position: 40 }]
+  Quantity;
+  @EndUserText.label: 'Unit Price'
+  @UI.lineItem: [{ position:30 }]
+  @UI.identification: [{ position: 50 }]
+  Unitprice;
+  @EndUserText.label: 'Created By'
+  @UI.lineItem: [{ position:40 }]
+  @UI.identification: [{ position: 60 }]
+  Createdby;
+  @EndUserText.label: 'Created At'
+  @UI.lineItem: [{ position:50 }]
+  @UI.identification: [{ position: 70 }]
+  Createdat;
+  @EndUserText.label: 'Last Changed By'
+  @UI.identification: [{ position: 80 }]
+  Lastchangedby;
+  @EndUserText.label: 'Changed At'
+  @UI.identification: [{ position: 90 }]
+  Changedat;
+}
